@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文章列表</title>
+    <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./libs/jquery-1.12.4.min.js"></script>
+    <!-- 引入bootstrap.js文件 -->
+    <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 引入模板引擎js文件 -->
+    <script src="./libs/template-web.js"></script>
+    <!-- 引入分页插件 -->
+    <script src="./libs/jquery.twbsPagination.js"></script>
+    <!-- 引入http.js文件 -->
+    <script src="./js/http.js"></script>
+    <!-- 引入当前页面js文件 -->
+    <script src="./js/article_list.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="common_title">
+            文章列表
+        </div>
+        <div class="container-fluid common_con">
+            <div class="row opt_btns">
+                <div class="col-xs-6">
+                    <form class="form-inline">
+                        <select id="selCategory" name="type" class="form-control input-sm">
+
+                        </select>
+                        <select id="selStatus" name="state" class="form-control input-sm">
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
+                        </select>
+                        <input type="text" id="key" name="key">
+                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                    </form>
+                </div>
+                <div class="col-xs-6">
+                    <a href="article_release.html" class="btn btn-success btn-sm pull-right" id="release_btn">发表文章</a>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered table-hover mp20">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th>标题</th>
+                        <th>作者</th>
+                        <th>分类</th>
+                        <th class="text-center">发表时间</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center" width="100">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <!-- 分页布局 -->
+            <div class="row text-center">
+                <ul id="pagination-demo" class="pagination-sm"></ul>
+                <p id="pagination">暂时没有数据</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除文章的模态框 -->
+    <div class="modal fade delModal" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">温馨提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p>您真的要删除此条数据么？？？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn-sure">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 文章分类的模板 -->
+    <script type="text/template" id="categoryList">
+        <option value="">所有分类</option>
+        {{each data value index}}
+            <option value="{{value.id}}">{{value.name}}</option>
+        {{/each}}
+    </script>
+
+    <!-- 文章列表的模板 -->
+    <script type="text/template" id="articleList">
+        {{each data value index}}
+         <tr>
+            <td class="text-center">{{index+1}}</td>
+             <td>{{value.title}}</td>
+             <td>{{value.author}}</td>
+             <td>{{value.category}}</td>
+             <td class="text-center">{{value.date}}</td>
+             <td class="text-center">{{value.state}}</td>
+             <td class="text-center">
+                 <a href="article_edit.html?id={{value.id}}"  class="btn btn-default btn-xs">编辑</a>
+                 <button data-id="{{value.id}}" data-toggle="modal"  data-target="#myModal" class="btn btn-danger btn-xs delete"> 删除</button>
+             </td>
+         </tr>
+        {{/each}}
+    </script>
+</body>
+
+</html>
